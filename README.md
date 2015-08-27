@@ -6,21 +6,23 @@ Para ejecutar cada unas de las clases es necesario añadir a los paramentros de 
 
 Sample:
 
+<pre><code>
  -Dtruststore=/Users/joaquindiez/truststore.jks
  -DtruststorePwd=changeit
  -Dkeystore=/Users/joaquindiez/mydomainInlogtrust.jks
  -DkeystorePwd=23423
-
+</pre></code>
 
 Para simplicarlo en el ejemplo se ha creado un fichero credentials donde se pueden meter esos datos para que los script de test los utilicen directamente
 
 Sample file credendials:
 
+<pre><code>
  TRUSTSTORE=/Users/joaquindiez/truststore.jks
  TRUSTSTOREPWD=changeit
  KEYSTORE=/Users/joaquindiez/mydominioenlogtrust.jks
  KEYSTOREPWD=90900
-
+</pre></code>
 
 
 El KeyStore se descarga de la Aplicación de Logtrust, Administracion -> Credentials -> x.509 Certificates
