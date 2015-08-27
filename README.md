@@ -39,5 +39,8 @@ AVISO!!!
 
 chain.cert contiene 2 certificados si se edita se pueden separar en 2 ficheros independientes (chainca0.crt, chainca1.crt ) y añadirlo al mismo truststore.jks
 
+
+<pre><code>
  keytool -importcert -keystore truststore.jks -file Downloads/chainca0.crt -alias userca
  keytool -importcert -keystore truststore.jks -file Downloads/chainca1.crt -alias ca
+ </pre></code>
