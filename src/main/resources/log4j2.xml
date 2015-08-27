@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+
+
+        <Syslog name="syslog_unsecure"
+                host="eu.public.relay.logtrust.net"
+                port="62607"
+                protocol="TCP"
+                includeMDC="true"
+                mdcId="mdc"
+                newLine="true"
+                facility="LOCAL0"
+                messageId="Audit"
+                format="RFC5424"
+                appName="my.app.log4j2.test" />
+
+
+        <Syslog name="syslog_secure_batraccio"
+                host="eu.elb.relay.logtrust.net"
+                port="443"
+                protocol="TCP"
+                format="RFC5424"
+                appName="my.app.log4j2.test:"
+                includeMDC="false"
+                facility="LOCAL0"
+                newLine="true"
+                enterpriseNumber="18060"
+                messageId="Audit"
+                mdcId="mdc">
+
+            <SSL>
+                <KeyStore location="${sys:keystore}" password="${sys:keystorePwd}"/>
+                <TrustStore location="${sys:truststore}" password="${sys:truststorePwd}"/>
+            </SSL>
+        </Syslog>
+
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+    </Appenders>
+    <Loggers>
+        <Root level="all">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="syslog_secure_batraccio"/>
+
+        </Root>
+    </Loggers>
+</Configuration>
