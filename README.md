@@ -44,3 +44,40 @@ chain.cert contiene 2 certificados si se edita se pueden separar en 2 ficheros i
  keytool -importcert -keystore truststore.jks -file Downloads/chainca0.crt -alias userca
  keytool -importcert -keystore truststore.jks -file Downloads/chainca1.crt -alias ca
  </pre></code>
+
+ Compilación y Uso
+ =================
+
+ Compila con maven
+<pre><code>
+mvn clean install
+</pre></code>
+
+En target genera un fichero log4j2-logtrust-test-bin.tar,  descomprimelo
+
+<pre><code>
+tar xvf log4j2-logtrust-test-bin.tar
+cd log4j2-logtrust-test
+</pre></code>
+
+Edita el fichero credentials y pon los valores adecuados para los certificados y sus claves.
+
+## Nombre Tabla de Logtrust 
+
+Si estas familiarizado con Logtrust, sabrás que los Logs se asocian a un identificador de tabla que tiene el formato my.app.XXX.YYYY
+
+Donde XXX y YYY son dos etiquetas cuyo valor tu decides
+
+En log4j2.xml, veras que se ha configurado el appName como
+
+<pre><code>
+ appName="my.app.log4j2.test:"
+</pre></code>
+
+
+Pon el nombre que desees, pero RESPETA el prefijo my.app.   y el caracter ":"  final!!
+
+
+
+
+
