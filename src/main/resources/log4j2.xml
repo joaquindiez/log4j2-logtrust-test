@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
 
+    <Properties>
+        <Property name="CLIENT">test</Property>
+        <Property name="format_auth">%d{ISO8601}|%-5level|%logger{36}|%mdc{domain}|%mdc{user}|%mdc{cid}|%msg%n|%throwable{full,separator( )}</Property>
+        <Property name="format_basic">%d{ISO8601}|%-5level|%logger{36}|%msg%n</Property>
+        <Property name="format_metrics">%d{ISO8601}|%msg%n</Property>
+        <Property name="baseDir">logs</Property>
+        <Property name="alcohol_server">servidor.syslog</Property>
+        <Property name="alcohol_port">1514</Property>
+    </Properties>
+
+
+
     <Appenders>
-
-
-        <Syslog name="syslog_unsecure"
-                host="eu.public.relay.logtrust.net"
-                port="62607"
-                protocol="TCP"
-                includeMDC="true"
-                mdcId="mdc"
-                newLine="true"
-                facility="LOCAL0"
-                messageId="Audit"
-                format="RFC5424"
-                appName="my.app.log4j2.test" />
-
 
         <Syslog name="syslog_secure_batraccio"
                 host="eu.elb.relay.logtrust.net"
@@ -30,6 +28,14 @@
                 messageId="Audit"
                 mdcId="mdc">
 
+            <LoggerFields>
+                <KeyValuePair key="cid" value="%mdc{cid}"/>
+                <KeyValuePair key="user" value="%mdc{user}"/>
+                <KeyValuePair key="domain" value="%mdc{domain}"/>
+                <KeyValuePair key="ex" value="%throwable{full,separator( )}"/>
+            </LoggerFields>
+
+
             <SSL>
                 <KeyStore location="${sys:keystore}" password="${sys:keystorePwd}"/>
                 <TrustStore location="${sys:truststore}" password="${sys:truststorePwd}"/>
@@ -37,16 +43,81 @@
         </Syslog>
 
 
+        <Routing name="Routing">
+            <Routes>
+
+                <Script name="RoutingInit" language="JavaScript">
+                    <![CDATA["route";]]>
+                </Script>
+
+                <Route ref="Console" key="Console"/>
+
+                <Route key="route">
+                    <Syslog name="syslog_secure_batraccio"
+                            host="eu.elb.relay.logtrust.net"
+                            port="443"
+                            protocol="TCP"
+                            format="RFC5424"
+                            appName="my.app.log4j2.${ctx:user}:"
+                            includeMDC="true"
+                            facility="LOCAL0"
+                            newLine="true"
+                            enterpriseNumber="18060"
+                            messageId="Audit"
+                            mdcId="mdc">
+
+                        <SSL>
+                            <KeyStore location="${sys:keystore}" password="${sys:keystorePwd}"/>
+                            <TrustStore location="${sys:truststore}" password="${sys:truststorePwd}"/>
+                        </SSL>
+                    </Syslog>
+                </Route>
+            </Routes>
+        </Routing>
+
+
+
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level ${ctx:USER} %logger{36} - %msg%n"/>
         </Console>
 
     </Appenders>
     <Loggers>
+
+        <Logger name="TestMDC" level="all">
+            <AppenderRef ref="Routing"/>
+        </Logger>
+
+        <Logger name="logtrust.BasicLog4jSend" level="all" additivity="false">
+            <AppenderRef ref="syslog_secure_batraccio"/>
+        </Logger>
+
+
+        <Logger name="logtrust.MessageFormatMessageLog4jSend" level="all">
+            <AppenderRef ref="syslog_secure_batraccio"/>
+        </Logger>
+
+
+        <Logger name="logtrust.StructuredDataMessageLog4jSend" level="all">
+            <AppenderRef ref="syslog_secure_batraccio"/>
+        </Logger>
+
+        <Logger name="logtrust.RawSend" level="all">
+            <AppenderRef ref="syslog_secure_batraccio"/>
+        </Logger>
+
+        <Logger name="logtrust.RoutingLog4jTest" level="all" additivity="false">
+            <AppenderRef ref="Routing"/>
+        </Logger>
+
+
+
         <Root level="all">
             <AppenderRef ref="Console"/>
-            <AppenderRef ref="syslog_secure_batraccio"/>
 
+           <AppenderRef ref="syslog_secure_batraccio"/>
+           <!-- <AppenderRef ref="Routing"/>-->
         </Root>
+
     </Loggers>
 </Configuration>
