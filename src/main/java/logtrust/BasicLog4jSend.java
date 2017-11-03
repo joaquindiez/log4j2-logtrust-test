@@ -15,7 +15,7 @@ import java.util.Random;
  */
 public class BasicLog4jSend {
 
-    private static final Logger logger = LogManager.getLogger("BasicLog4jSend");
+    private static final Logger logger = LogManager.getLogger(BasicLog4jSend.class);
 
     public static void main( String[] args )
     {

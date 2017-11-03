@@ -13,12 +13,12 @@ import java.util.Random;
  */
 public class StructuredDataMessageLog4jSend {
 
-    private static final Logger logger = LogManager.getLogger("StructuredDataMessageLog4jSend");
+    private static final Logger logger = LogManager.getLogger(StructuredDataMessageLog4jSend.class);
 
     public static void main( String[] args )
     {
         Random random = new Random();
-        int count = 1;
+        int count = 10;
         if (args.length > 0){
             count = Integer.parseInt(args[0]);
         }

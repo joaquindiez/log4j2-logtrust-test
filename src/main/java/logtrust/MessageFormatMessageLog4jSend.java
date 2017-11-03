@@ -18,7 +18,8 @@ import java.util.Random;
 public class MessageFormatMessageLog4jSend
 {
 
-    private static final Logger logger = LogManager.getLogger("HelloWorld");
+    private static final Logger logger
+            = LogManager.getLogger(MessageFormatMessageLog4jSend.class);
 
     public static void main( String[] args )
     {
@@ -32,11 +33,10 @@ public class MessageFormatMessageLog4jSend
             String user = "user_" + random.nextLong();
 
             //Envio Usando MessageFormatMessage
-            MessageFormatMessage msg0 = new MessageFormatMessage("Logging  {0} of {1} random value {2}", i+1, count, user);
+            MessageFormatMessage msg0
+                    = new MessageFormatMessage
+                    ("Logging  {0} of {1} random value {2}", i+1, count, user);
             logger.info(msg0);
-
-
         }
-
     }
 }

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class TestLog4j2ExceptionManage {
 
 
-  static Logger log = LoggerFactory.getLogger("TestLogs");
+  static Logger log = LoggerFactory.getLogger(TestLog4j2ExceptionManage.class);
 
   public static void main( String[] args ){
     //System.setProperty("line.separator", " ");

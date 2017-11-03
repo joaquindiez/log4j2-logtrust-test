@@ -11,21 +11,18 @@ import org.apache.logging.log4j.core.config.Configurator;
  */
 public class RawSend {
 
-    public static void main( String[] args )
-    {
-        String displayname ="displayname";
+  public static void main(String[] args) {
+    String displayname = "displayname";
 
 
-        String configLocation = "log4j2.xml";
-        LoggerContext context =  Configurator.initialize(
-                displayname,
-                configLocation);
+    String configLocation = "log4j2.xml";
+    LoggerContext context = Configurator.initialize(
+            displayname,
+            configLocation);
 
+    Logger logger = context.getLogger(RawSend.class.getName());
 
-       Logger logger =  context.getLogger("RawSend");
+    logger.info("Test Raw Send");
 
-
-        logger.info("Test Raw Send");
-
-    }
+  }
 }
